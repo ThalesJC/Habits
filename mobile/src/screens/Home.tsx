@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Text, View, ScrollView, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { api } from '../lib/axios';
 import { generateDatesFromYearBegining } from '../utils/generateDatesFromYearBegining';
@@ -34,16 +34,16 @@ export function Home() {
             setSummary(response.data);
             
         } catch (error) {
-            // Alert.alert('Ops', 'Não foi possível carregar o sumário de hábitos.');
+            Alert.alert('Ops', 'Não foi possível carregar o sumário de hábitos.');
             console.log(error);
         } finally {
             setLoading(false);
         }
     }
 
-    useEffect(() => {
+    useFocusEffect(useCallback(() => {
         fetchData();
-    }, []);
+    }, []));
 
     if(loading) {
         return (
